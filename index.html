@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATLAS — Proje Atlası</title>
+<meta name="description" content="Projelerini ve görevlerini bir mühendislik paftası hassasiyetiyle takip et — ilerleme, zaman çizelgesi ve raporlar tek ekranda.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%230e1b2e%22/><circle cx=%2250%22 cy=%2250%22 r=%2232%22 fill=%22none%22 stroke=%22%235ec8e8%22 stroke-width=%226%22/><path d=%22M50 8v20M50 72v20M8 50h20M72 50h20%22 stroke=%22%235ec8e8%22 stroke-width=%224%22/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#genel-bakis">İçeriğe geç</a>
+<div class="grid-overlay" aria-hidden="true"></div>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#genel-bakis" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="26" height="26">
+          <circle cx="16" cy="16" r="11" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M16 2v6M16 24v6M2 16h6M24 16h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="16" cy="16" r="2.4" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="brand-text">ATLAS</span>
+    </a>
+    <p class="brand-tag">PROJE ATLASI · REV. 2026</p>
+
+    <nav class="site-nav" aria-label="Ana gezinme">
+      <a href="#bolgeler">Bölgeler</a>
+      <a href="#zaman-cizelgesi">Zaman Çizelgesi</a>
+      <a href="#rapor">Rapor</a>
+    </nav>
+
+    <div class="header-controls">
+      <button id="printToggle" class="ghost-btn" type="button" title="Negatif/pozitif baskı">POZİTİF BASKI</button>
+      <button id="newProjectBtn" class="primary-btn" type="button">+ Yeni Bölge</button>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="mobileNav" aria-label="Menüyü aç">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-nav" id="mobileNav" hidden>
+    <a href="#bolgeler">Bölgeler</a>
+    <a href="#zaman-cizelgesi">Zaman Çizelgesi</a>
+    <a href="#rapor">Rapor</a>
+    <button id="printToggleMobile" class="ghost-btn" type="button" style="align-self:flex-start;">POZİTİF BASKI</button>
+    <button id="newProjectBtnMobile" class="primary-btn" type="button" style="align-self:flex-start;">+ Yeni Bölge</button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ GENEL BAKIŞ ============ -->
+  <section class="overview" id="genel-bakis" data-sheet="A-100" data-sheet-title="Genel Bakış">
+    <div class="container overview-grid">
+
+      <div class="overview-intro">
+        <p class="eyebrow">PAFTA A-100 · GENEL BAKIŞ</p>
+        <h1 class="overview-title">Projelerin, tek<br><span class="text-accent">ölçekli çizimde</span>.</h1>
+        <p class="overview-desc">Her proje bir bölge, her görev bir koordinat. ATLAS; ilerlemeyi, gecikmeleri ve zaman çizelgesini bir mühendislik paftası netliğiyle önüne koyar.</p>
+        <div class="overview-actions">
+          <button class="primary-btn" id="heroNewProjectBtn" type="button">+ Yeni Bölge Ekle</button>
+          <a href="#zaman-cizelgesi" class="text-link">Zaman çizelgesini gör →</a>
+        </div>
+      </div>
+
+      <div class="compass-wrap">
+        <svg class="compass" viewBox="0 0 240 240" aria-hidden="true">
+          <circle class="compass-track" cx="120" cy="120" r="100"></circle>
+          <circle class="compass-fill" id="compassFill" cx="120" cy="120" r="100"></circle>
+          <g class="compass-ticks" id="compassTicks"></g>
+        </svg>
+        <div class="compass-center">
+          <p class="compass-value" id="compassValue">0%</p>
+          <p class="compass-label">ORTALAMA İLERLEME</p>
+        </div>
+      </div>
+
+      <div class="stat-plates">
+        <div class="stat-plate">
+          <p class="stat-plate-label">TOPLAM BÖLGE</p>
+          <p class="stat-plate-value" id="statProjects">0</p>
+          <p class="stat-plate-foot">aktif proje sayısı</p>
+        </div>
+        <div class="stat-plate">
+          <p class="stat-plate-label">TOPLAM GÖREV</p>
+          <p class="stat-plate-value" id="statTasks">0</p>
+          <p class="stat-plate-foot">tüm bölgelerde</p>
+        </div>
+        <div class="stat-plate">
+          <p class="stat-plate-label">TAMAMLANAN</p>
+          <p class="stat-plate-value" id="statDone">0</p>
+          <p class="stat-plate-foot">bitirilmiş görev</p>
+        </div>
+        <div class="stat-plate stat-plate--danger">
+          <p class="stat-plate-label">GECİKEN</p>
+          <p class="stat-plate-value" id="statOverdue">0</p>
+          <p class="stat-plate-foot">son tarihi geçmiş</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ BÖLGELER (PROJELER) ============ -->
+  <section class="projects" id="bolgeler" data-sheet="A-101" data-sheet-title="Bölgeler">
+    <div class="container">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">PAFTA A-101 · BÖLGELER</p>
+          <h2 class="section-title">Her bölgenin kendi sınırı var.</h2>
+          <p class="section-desc">Bir bölgeye tıkla, içindeki görevleri gör. Yeni görev ekle, durumunu değiştir, ilerlemeyi ayarla.</p>
+        </div>
+        <div class="filter-bar">
+          <input type="text" id="projectSearch" placeholder="Bölgelerde ara…" autocomplete="off">
+          <select id="statusFilter" aria-label="Duruma göre filtrele">
+            <option value="all">Tüm durumlar</option>
+            <option value="beklemede">Beklemede</option>
+            <option value="devam">Devam ediyor</option>
+            <option value="tamam">Tamamlandı</option>
+            <option value="gecikmis">Gecikmiş</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="project-list" id="projectList"></div>
+    </div>
+  </section>
+
+  <!-- ============ ZAMAN ÇİZELGESİ ============ -->
+  <section class="timeline" id="zaman-cizelgesi" data-sheet="A-102" data-sheet-title="Zaman Çizelgesi">
+    <div class="container">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">PAFTA A-102 · ZAMAN ÇİZELGESİ</p>
+          <h2 class="section-title">Görevler, takvim üzerinde.</h2>
+          <p class="section-desc">Yatay çubuklar başlangıç ve bitiş tarihlerini gösterir. Bugünün konumu dikey çizgiyle işaretli.</p>
+        </div>
+        <div class="filter-bar">
+          <select id="timelineProjectFilter" aria-label="Bölgeye göre filtrele">
+            <option value="all">Tüm bölgeler</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="timeline-legend" id="timelineLegend"></div>
+
+      <div class="timeline-scroll" id="timelineScroll">
+        <div class="timeline-grid" id="timelineGrid">
+          <div class="timeline-today" id="timelineToday"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RAPOR ============ -->
+  <section class="reports" id="rapor" data-sheet="A-103" data-sheet-title="Rapor">
+    <div class="container">
+      <p class="eyebrow">PAFTA A-103 · RAPOR</p>
+      <h2 class="section-title">Sayılar, kendi dilinde.</h2>
+      <p class="section-desc">Tüm bölgelerin durum dağılımı, ilerleme kıyası ve tamamlanma eğilimi.</p>
+
+      <div class="reports-grid">
+        <div class="report-card">
+          <p class="report-card-title">DURUM DAĞILIMI</p>
+          <div class="donut-wrap">
+            <svg class="donut" viewBox="0 0 200 200" id="donutChart" aria-hidden="true"></svg>
+            <div class="donut-center">
+              <p class="donut-value" id="donutTotal">0</p>
+              <p class="donut-label">görev</p>
+            </div>
+          </div>
+          <ul class="donut-legend" id="donutLegend"></ul>
+        </div>
+
+        <div class="report-card report-card--wide">
+          <p class="report-card-title">BÖLGE BAZLI İLERLEME</p>
+          <div class="progress-bars" id="projectProgressBars"></div>
+        </div>
+
+        <div class="report-card report-card--wide">
+          <p class="report-card-title">TAMAMLANMA EĞİLİMİ (SON 14 GÜN)</p>
+          <svg class="trend-chart" id="trendChart" viewBox="0 0 640 180" preserveAspectRatio="none" aria-hidden="true"></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ BAŞLIK BLOĞU (imza öğesi) ============ -->
+<footer class="title-block" id="titleBlock" aria-live="polite">
+  <div class="title-block-cell title-block-cell--sheet">
+    <span class="tb-label">PAFTA NO</span>
+    <span class="tb-value" id="tbSheet">A-100</span>
+  </div>
+  <div class="title-block-cell title-block-cell--main">
+    <span class="tb-label">GÖRÜNÜM</span>
+    <span class="tb-value" id="tbTitle">Genel Bakış</span>
+  </div>
+  <div class="title-block-cell">
+    <span class="tb-label">ÖLÇEK</span>
+    <span class="tb-value" id="tbScale">1 : 1</span>
+  </div>
+  <div class="title-block-cell">
+    <span class="tb-label">TARİH</span>
+    <span class="tb-value" id="tbDate">—</span>
+  </div>
+  <div class="title-block-cell">
+    <span class="tb-label">BÖLGE SAYISI</span>
+    <span class="tb-value" id="tbCount">0</span>
+  </div>
+</footer>
+
+<!-- ============ YENİ BÖLGE MODALI ============ -->
+<div class="modal-overlay" id="projectModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
+    <button class="modal-close" id="projectModalClose" type="button" aria-label="Kapat">✕</button>
+    <h3 id="projectModalTitle">Yeni Bölge Ekle</h3>
+    <form id="projectForm">
+      <label class="field-label" for="pfName">Bölge adı</label>
+      <input type="text" id="pfName" placeholder="ör. Mobil Uygulama Yeniden Tasarımı" required autocomplete="off">
+
+      <label class="field-label" for="pfDesc">Kısa açıklama</label>
+      <input type="text" id="pfDesc" placeholder="ör. iOS ve Android arayüzlerinin yeniden çizimi" autocomplete="off">
+
+      <label class="field-label" for="pfColor">Vurgu rengi</label>
+      <div class="color-picker" id="pfColorPicker">
+        <button type="button" class="color-swatch is-active" data-color="cyan" style="--sw: var(--color-cyan)"></button>
+        <button type="button" class="color-swatch" data-color="amber" style="--sw: var(--color-amber)"></button>
+        <button type="button" class="color-swatch" data-color="coral" style="--sw: var(--color-coral)"></button>
+        <button type="button" class="color-swatch" data-color="sage" style="--sw: var(--color-sage)"></button>
+      </div>
+      <input type="hidden" id="pfColorValue" value="cyan">
+
+      <button type="submit" class="primary-btn modal-submit">Bölgeyi Oluştur</button>
+    </form>
+  </div>
+</div>
+
+<!-- ============ TOASTS ============ -->
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="script.js" defer></script>
+</body>
+</html>
